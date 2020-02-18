@@ -73,23 +73,21 @@
  
   - name: "Installing apt dependencies"
     apt:
-     name: "{{ item }}"
-    with_items: 
+      name: "{{ item }}"
+      update_cache: yes
+    with_items:
       - libmysqlclient-dev
       - mysql-client
+      - python-dev
+      - python-pip
+      - python-mysqldb
       - python3-pip
-      - python2.7
 
   - name: Make sure pymysql is present
     become: true # needed if the other tasks are not played as root
     pip:
       name: pymysql
       state: present
-
-  - name: install python mysql bindings
-    apt: name=python-mysqldb state=installed
-    become: yes
-    become_method: sudo
 
   - name: "Installing  mysql server"
     apt:
@@ -101,10 +99,18 @@
       regexp: '^bind-address'
       line: bind-address = 0.0.0.0
 
-  - name: Create a new database with name 'mysql'
+  - name: Ensure mysql is running and starts on boot
+    service:
+      name: mysql
+      state: started
+      enabled: yes
+    become: yes
+
+  - name: Create mysql database
     mysql_db:
+      login_unix_socket: /var/run/mysqld/mysqld.sock
       name: mydb
-      state: present
+      state: present 
 
   - name: "Creating mysql user"
     mysql_user:
@@ -113,8 +119,9 @@
       priv: '*.*:ALL'
       host: '%'
       state: present
+      login_unix_socket: /var/run/mysqld/mysqld.sock
     notify: restart mysql
-
+  
   handlers:
     - name: restart mysql
       service:
