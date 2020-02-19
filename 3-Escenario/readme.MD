@@ -26,9 +26,9 @@ un documento en formato MarkDown (se suguiere el nombre Escenario03.MD) que cont
 
 ---
 
-### Escenario 3 - Implementación
+### Instalación
 
-**1. Instalar Vagrant.**
+#### **1. Vagrant.**
 Ingresmos al siguiente link:
 
 https://www.vagrantup.com/docs/installation/
@@ -41,7 +41,7 @@ Para validar la correcta instalación utilizamos el comando dentro de la consola
 vagrant -v
 ~~~
 
-**2. Instalar VirtualBox.**
+#### **2. VirtualBox.**
 
 Ingresamos al siguiente link:
 
@@ -61,4 +61,26 @@ Para abrirlo directamente desde la terminal se escribe:
 ~~~
 virtualbox
 ~~~
+
+#### **3. Ansible**
+
+Ingresamos al siguiente link:
+
+https://github.com/Jorge-Andres-Moreno/Ansible_examples
+
+y ejecutamos los siguientes comandos para la instalación en lubuntu:
+
+~~~
+sudo apt install software-properties-common -y
+sudo apt-add-repository ppa:ansible/ansible -y
+sudo apt install ansible -y
+~~~
+
+Por ultimo validamos si quedo instalado:
+
+~~~
+ansible -v
+~~~
+
+---
 
