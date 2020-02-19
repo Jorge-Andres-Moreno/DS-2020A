@@ -14,14 +14,22 @@ Luego seleccionamos reservado dinámicamente ![reservado dinámicamente](https:/
 
 Le damos iniciar y seleccionamos Instalar CENTOS 8. A partir de acá se selecciona las características que queremos tener, Idioma, se debe crear el usuario root con su respectiva contraseña. ![Seleccionamos Idioma](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/seleccionamos%20idioma.PNG). También nos pedirá crear un usuario con su respectiva contraseña. Es posible que termine la instalación y una vez se reinicie vuelva a iniciar la instalación, para evitar esto y que el Sistema CentOS arranque correctamente se debe eliminar el disco de la unidad virtual, en la parte superior de virtual box, damos click en la pestaña ***Máquina***, luego en ***configuración***, después en ***Almacenamiento*** y finalmente como aparece en la imagen. ![**Así**](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/finalizar%20la%20instalaci%C3%B3n.PNG). 
 ### Acceda a la máquina CentOS e instale NGINX: ###
-Primero actualizamos el sistema con el comando ***sudo yum update*** ![yum update](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/Instalando%20Nginx.PNG), luego debemos instalar **NGINX** con el siguiente comando ***sudo yum install Nginx*** ![install nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/NGINX.PNG), ![Instalado y listo nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/NGINX%202.PNG).
-Ahora procedemos a ejecutar los siguientes comandos que aparecen en las imágenes: ![systemctl enable nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/systemctl%20nginx%20service.PNG), luego ![systemctl start nginx, systemctl status nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/start%20and%20status.PNG). Ahora abrimos los puertos 80 y 443 usando firewall-cmd:
+Primero actualizamos el sistema con el comando ***sudo yum update*** ![yum update](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/Instalando%20Nginx.PNG)
+
+luego debemos instalar **NGINX** con el siguiente comando ***sudo yum install Nginx*** ![install nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/NGINX.PNG), ![Instalado y listo nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/NGINX%202.PNG)
+
+
+Ahora procedemos a ejecutar los siguientes comandos que aparecen en las imágenes: ![systemctl enable nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/systemctl%20nginx%20service.PNG)
+
+luego ![systemctl start nginx, systemctl status nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/start%20and%20status.PNG)
+
+Ahora procedemos a habilitar (abrimos) los puertos 80 y 443 usando firewall-cmd:
 ![comandos de firewall](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/firewall%20cmd%20service%20http%20completo%201.PNG).
 ![para mirar los puertos que escucha nginx](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/escuchando%20por%20los%20puertos.PNG).  
 El estado de nginx también lo podemos verificar vía web usando la ip correspondiente: ![nginx vía web](https://github.com/leonardoZambranoCifuentes/Images-Distribuidos/blob/master/good%20nginx.PNG).
 
 ## Dificultades ##
-Una de las cosas más difíciles fue la instalación de la imagen de centOS debido a que generó problemas al finalizar la instalación, el sistema se reiniciaba una y otra vez y fue necesario buscar en internet como solucionar ese problema. Además la demora en instalar el sistema operativo y la cantidad de pasos y configuraciones por comandos.
+Una de las cosas más difíciles fue la instalación de la imagen de centOS debido a que generó problemas al finalizar la instalación, el sistema se reiniciaba una y otra vez y fue necesario buscar en internet como solucionar ese problema. Además la demora en instalar el sistema operativo y la cantidad de pasos y configuraciones por comandos. También aprender el formato de Markdown representa una pequeña dificultad, pero en especial los espacios y la distancia entre parráfos fue una dificultad entenderlos en Markdown.
 
 ## ¿Es apropiado? ##
 No es del todo apropiado, es bastante complejo querer hacer réplicas de este manera porque si falla la instalación toca volver a iniciar desde el principio todo el proceso. Además, el proceso también puede fallar si la imagen del S.O se corrompe y tocaría descargar nuevamente la imagen del S.O.
