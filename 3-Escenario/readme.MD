@@ -1,4 +1,44 @@
-# Indications
-1. Install Virtualbox
-2. Install Vagrant
-3. Install [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html) (Warning: It may be [tricky](https://www.jeffgeerling.com/blog/2017/using-ansible-through-windows-10s-subsystem-linux) on windows hosts)
+
+### Equipo de trabajo:
+* Jorge Andres Moreno - A00328088
+* Andres Varela - A00049016
+* Leonardo Cifuentes - A00027552
+
+---
+
+### Escenario 03
+
+En este escenario se hará uso de lo aprendido anteriormente para implementar una aplicación web que haga uso de una base de datos, el sistema debe permitir insertar y listar datos de una tabla en la base de datos. La aplicación debe ser desplegada en un servidor web y la base de datos en un servidor aparte.
+
+### Pre Requisitos
+- [VirtualBox](https://www.virtualbox.org/)
+- [Vagrant](http://vagrantup.com)
+- [Saltstack](https://www.saltstack.com/)
+
+### Entregable
+
+un documento en formato MarkDown (se suguiere el nombre Escenario03.MD) que contenga:
+
+1. Nombres completos y códigos de los estudiantes.
+2. Documentación y evidencias del proceso de creación, provisionamiento y despliegue de la aplicación.
+3. Dificultades encontradas en el proceso.
+4. Conclusiones acerca de los hallazgos y aprendizajes obtenidos en el desarrollo del laboratorio.
+
+---
+
+### Escenario 3 - Implementación
+
+**1. Instalar Vagrant.**
+Ingresmos al siguiente link:
+
+https://www.vagrantup.com/docs/installation/
+
+En la esquina superior derecha, seleccionamos la opción Download y después seleccionamos el instalador o paquete apropiado para nuestro sistema operativo (en este caso es Lubuntu 19.04).
+
+Para validar la correcta instalación utilizamos el comando dentro de la consola de la maquina que instalamos Vagrant:
+
+~~~
+vagrant -v
+~~~
+
+**2. Instalar VirtualBox.**
