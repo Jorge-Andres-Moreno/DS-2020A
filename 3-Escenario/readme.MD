@@ -42,3 +42,23 @@ vagrant -v
 ~~~
 
 **2. Instalar VirtualBox.**
+
+Ingresamos al siguiente link:
+
+https://vitux.com/how-to-install-virtualbox-on-ubuntu/
+
+Agregamos un repositorio fuente y actualizamos el sistema.
+~~~
+sudo add-apt-repository multiverse && sudo apt-get update
+~~~
+
+Ahora instalamos VirtualBox con el comando.
+~~~
+sudo apt install virtualbox
+~~~
+
+Para abrirlo directamente desde la terminal se escribe:
+~~~
+virtualbox
+~~~
+
