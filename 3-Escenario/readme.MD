@@ -364,5 +364,62 @@ end
 ~~~
 ___
 ### Resultados
+
+En la siguiente imagen se puede apreciar la pagina web principal que responde el servidor.
+
+**NOTA**: Esta petición es **/** mediante una petición GET de http. Esta petición responde con el archivo **principal.html** en el servidor.
+
+![Web server - HTML](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-29-59.png)
+
+A continuación, registraremos las credenciales de tres personas. Para lo cual llameremos el metodo POST  en el servidor llamado **/add**.
+
+Ingresamos el usuario **jorge** con el id **1**
+
+![POST - Jorge](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-30-17.png)
+
+Ingresamos el usuario **Varela** con el id **2**
+
+![POST - Varela](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-30-30.png)
+
+Ingresamos el usuario **Leonardo** con el id **3**
+
+![POST - Leonardo](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-30-46.png)
+
+Para comprobar que el servidor se haya conectado exitosamente a la base de datos, y haya guardado exitosamente los usuarios ingresados. Utilizaremos una petición **POST** llamada **/list** para pedir la lista de usuarios registrados.
+
+![Customers](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-31-12.png)
+
+##### Comprobación de los servicios
+
+Por ultimo ingresaremos manualmente por **SSH** a las maquinas virtuales para comprobar el funcionamiento de los servicios de los servidores.
+
+Verificamos antes que los las maquinas virtuales se encuentren activas.
+
+![servers running](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-32-52.png)
+
+Ingresamos por **SSH** con el usuario vagrant al servidor web que lo habiamos llamado **ServerA**.
+
+![SSH - ServerA](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-33-19.png)
+
+Ahora proccediremos a ver el **status** de **PM2** que nos dira di el servicio está activado.
+
+![PM2 status](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-33-48.png)
+
+Ahora, ingresamos por **SSH** con el usuario vagrant a la base datos que lo habiamos llamado **ServerB**.
+
+![SSH - ServerB](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-35-37.png)
+
+
+Ahora ingresaremos a la base de datos con el usuario **root** y la contraseña **password**.
+
+![MySQL - SignIn](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-36-18.png)
+
+Ahora ingresamos a la base de datos, y luego ahi imprimiremos en consola la tabla **customers** que es en la cual se guardan todos los usuarios que registramos anteriormente.
+
+![MySQL - Database](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-38-01.png) 
+
+![MySQL - print all](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-38-00.png) 
+
 ___
 ### Conclusiones
+
