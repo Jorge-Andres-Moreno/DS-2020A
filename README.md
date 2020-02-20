@@ -1,2 +1,2 @@
 # DS-2020A
-Primer laboratorio de Sistemas distribuidos
+Taller #1 de Sistemas distribuidos
