@@ -325,7 +325,7 @@ servers = {
 }
 ~~~
 
-Seguirmos con la 
+Seguirmos con la configuración **ssh** de las maquinas virtuales. Decidimos utilizar la **box** de vagrant **ubuntu/bionic64** ya que es la distro de linux **Ubuntu 18.04**, la cual es compatible con los playbooks desarrollados.
 
 ~~~
 
@@ -347,6 +347,10 @@ Vagrant.configure("2") do |config|
      end
   end
 ~~~
+
+por ultimo aprovisionamos a las maquinas virtuales con el archivo server.yml en el cual se encuetra los aprovisionamientos correspondientes.
+
+**NOTA**: Es importante saber la gerarquia de las carpetas y como se ha estructurado el archivo server.yml ya que en el se encuentran los dos aprovisionamientos que funcionan independientes y tienen el nombre de **roles** en **Ansible**.
 
 ~~~
 #provision for servers
