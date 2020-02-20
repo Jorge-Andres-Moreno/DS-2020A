@@ -84,7 +84,7 @@ ansible -v
 
 ---
 
-### MySQL
+### Base de datos - MySQL
 
 Utilizamos el motor de base de datos de MySQL. Para la instalación creamos el playbook para aprovisionar con ansible y luego integrarlo con el proyecto en Vagrant.
 
@@ -184,3 +184,181 @@ handlers:
 ___
 
 
+### Web server - NodeJS
+
+Utilizamos la herramienta de NodeJS que nos permitio desarrollar en el mismo framework el Back-end y Front-End de la aplicación.
+
+Codigo fuente del servidor web se encuentra en el siguiente repositorio:
+
+[Servidor web](https://github.com/Jorge-Andres-Moreno/Web_server.git)
+
+Para la instalación del servidor web utilizamos la herramienta de **Ansible** para aprovisionar y luego anexarlo más adelante al proyecto en **Vagrant**.
+
+Comenzamos en el playbook, escribiendo el nombre del host que ser **webserver** 
+
+~~~
+- hosts: webserver
+  gather_facts: yes
+  become: yes
+~~~
+
+Luego configuraremos la version que utilizaremos de Node, para este caso utilizaremos la version 8x que es la ultima.
+
+~~~
+vars:
+    NODEJS_VERSION: "8"
+~~~
+
+**NOTA**: Lo siguiente se encuentra dentro de **task** del playbook.
+
+Ahora seguiremos a instalar NodeJS, descargando su llave e instalando su repositorio que lleva los archivos y dependencias de instalación.
+
+~~~
+  - name: Install the gpg key for nodejs LTS
+    apt_key:
+      url: "https://deb.nodesource.com/gpgkey/nodesource.gpg.key"
+      state: present
+
+  - name: Install the nodejs LTS repos
+    apt_repository:
+      repo: "deb https://deb.nodesource.com/node_{{ NODEJS_VERSION }}.x {{ ansible_distribution_release }} main"
+      state: present
+      update_cache: yes
+
+  - name: Install the nodejs
+    apt:
+      name: nodejs
+      state: present
+~~~
+
+Ahora lo que haremos es instalar la herramienta **Git** para posteriormente descargar el repositorio del servidor web.
+
+~~~
+  - name: Install git
+    apt:
+      name: git
+      state: present
+
+  - name: Git Clone Repo
+    git: 
+      repo: https://github.com/Jorge-Andres-Moreno/Web_server.git
+      dest: '~/app'
+      update: yes
+      force: yes
+      accept_hostkey: no
+~~~
+
+Ahora lo que tenemos que hacer es instalar las dependencias que trae el proyecto de NodeJS, para este caso instalaremos las librerias de **express**, **body-paser** y **mysql**.
+
+~~~
+ - name: Install modules node
+    npm:
+      name: "{{item}}"
+      path: ~/app
+    with_items:
+      - express
+      - body-parser
+      - mysql
+~~~
+
+Por ultimo, instalamos **PM2**. Esta herramienta nos permite correr en segundo plano un **Demon**, en ubuntu para que el servidor web corra cada vez que se inicie el host.
+
+~~~
+
+  - name: Install PM2
+    npm:
+      name: pm2
+      global: yes
+  
+  - name: To Start a App
+    become: yes
+    become_method: sudo
+    become_user: root
+    command: sudo pm2 start ~/app/index.js
+~~~
+___
+
+### Vagrant + Ansible
+
+Ya en este punto con los **playbooks** listos podemos **virtualizar** dos maquinas las cuales aprovisionaremos más adelante con los **playbooks** que hemos realizado anteriormen.
+
+Empezaremos definiendo en un archivo llamado **hosts** las direcciónes IPs que llevaran las maquinas virtuales que crearemos.
+
+En primer lugar definiremos la IP y el usuario de la maquina donde se encuentra la base de datos. El nombre de la maquina utilizara es **ServerB** y tendra la **IP 192.168.56.3**.
+
+**NOTA**: Notese que el mismo nombre que llevara es igual a el que habiamos definido en el playbook,**database** , al igual que pasa con el nombre del servidor web, **webserver**. Esto se debe en gran medida ya que cuando Vagrant lee la información de este archivo define que hosts del playbook le corresponde aprovisionarlo.
+
+En segundo lugar definiremos la IP y el usuario de la maquina donde se encuentra en servidor web. El nombre de la maquina que utilizara es **ServerA** y tendra la **IP 192.168.56.2**.
+
+A continuación el contenido del archivo **hosts** .
+
+~~~
+server_provision
+
+[database]
+ServerB ansible_host=192.168.56.3 
+
+[webserver]
+ServerA ansible_host=192.168.56.2 
+~~~
+
+Luego con el comando se creara un archivo llamado Vagrantfile que editaremos y el entorno que necesita un proyecto en vagrant:
+~~~
+vagrant init
+~~~
+
+En el archivo de configuración **ansible.cfg** pondremos por defecto que los host que utilizara Vagrant seran los que estan en el archivo **hosts**.
+
+La configuración se hace de la siguiente manera:
+
+~~~
+[defaults]
+hostfile = hosts
+host_key_checking = False
+~~~
+
+Ahora en el archivo **Vagrantfile** proceder a definir las cualidades de la maquina virtual, con los nombres que les hemos asignado, tales como: CPU, Memoria RAM, puerto ssh y dirección IP.
+~~~
+servers = {
+  "ServerB" => { :ip => "192.168.56.3", :cpus => 1, :mem => 512, :ssh_port=>2200 },
+  "ServerA" => { :ip => "192.168.56.2", :cpus => 1, :mem => 512, :ssh_port=>2222 }
+}
+~~~
+
+Seguirmos con la 
+
+~~~
+
+Vagrant.configure("2") do |config|
+  servers.each_with_index do |(hostname, info), index|
+     config.vm.define hostname do |cfg|
+       cfg.vm.provider :virtualbox do |vb, override| 
+         config.vm.box = "ubuntu/bionic64"
+         override.vm.network "private_network", ip: "#{info[:ip]}"
+         #Fix SSH forwarded port
+         override.vm.network "forwarded_port", guest: 22, host:"#{info[:ssh_port]}", id: "ssh", auto_correct: true
+         override.vm.hostname = hostname
+         vb.name = hostname
+         override.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "/home/vagrant/.ssh/public_key"
+         override.vm.provision "shell", inline: "cat /home/vagrant/.ssh/public_key >> /home/vagrant/.ssh/authorized_keys"
+         override.vm.provision "shell", inline: "rm /home/vagrant/.ssh/public_key"
+         vb.name = hostname
+       end
+     end
+  end
+~~~
+
+~~~
+#provision for servers
+    config.vm.provision "ansible" do |ansible|
+            ansible.inventory_path = 'hosts'
+            ansible.verbose = 'vvv'
+            ansible.playbook = 'playbooks/servers.yml'
+           # ansible.limit = "all"
+    end
+end
+~~~
+___
+### Resultados
+___
+### Conclusiones
