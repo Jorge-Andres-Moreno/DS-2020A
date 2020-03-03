@@ -421,5 +421,5 @@ Ahora ingresamos a la base de datos, y luego ahi imprimiremos en consola la tabl
 ![MySQL - print all](https://raw.githubusercontent.com/Jorge-Andres-Moreno/DS-2020A/master/3-Escenario/Screenshots/Captura%20de%20pantalla%20de%202020-02-19%2016-38-00.png) 
 
 ___
-### Conclusiones
+
 
